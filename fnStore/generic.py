@@ -6,16 +6,14 @@ class FnStore():
 
     '''
     fnStore= [] # list with functions
-    def __init__(self):
-        '''
-        placeholder for intilization of class
-        '''        
-        pass
+    formTypes={
+        'int':'number',
+        'str':'text'
+    }
     def register(self,fnct):
         '''
         register function and add it to fnStore
-        '''
-        #TODO add units 
+        ''' 
         fn = {}
         args= inspect.getargspec(fnct)
         fn['description']= fnct.__code__.co_consts
@@ -23,16 +21,18 @@ class FnStore():
         fn['name']=fnct.__code__.co_name.split("_")[1]
         fn['id']=len(self.fnStore)
         fn['argCount']= fnct.__code__.co_argcount
-        fn['args']= args.args
-        fn['default']=args.defaults
-        fn['types']=list(map(lambda x:str(type(x)).split("'")[1],args.defaults))
+        fn['values'] = {
+            arg_: 
+            {'valueUnit':unit_,
+            'value':default_,
+            'valueType':self.formTypes[typ_]
+            } for (arg_, unit_,default_,typ_) in zip(
+                list(map(lambda x: x.split("_")[0],args.args)),#extract argument name before _
+                list(map(lambda x: x.split("_")[1],args.args)),#extract argument unit after _
+                args.defaults, #extract default values
+                list(map(lambda x:str(type(x)).split("'")[1],args.defaults)))} # extract units
         fn['exec']=fnct
         self.fnStore.append(fn)
-    def __str__(self):
-        '''
-        placeholder for description of function
-        '''
-        pass
     def calculate(self):
         '''
         placeholder for calculation of function
@@ -40,39 +40,9 @@ class FnStore():
         pass
     def getArgs(self,name):
         '''
-        TODO make return stgh like in values
-                    selected: {
-                        id:1,
-                        group:'arytmetyka',
-                        name:'dodaj'
-                    },
-                    values:{
-                        'pierwsza': {
-                            valueUnit: '%',
-                            value: 1.,
-                            valueType: 'number'
-                        },
-                        'druga': {
-                            valueUnit: 'lbm',
-                            value: 'Artur',
-                            valueType: 'text'
-                        },
-                        'trzecia': {
-                            valueUnit: '%',
-                            value: 3.,
-                            valueType: 'number'
-                        },
-                    }, // values to be passed to server every item has key is name, valueUnit, valueDefault, valueType
-                    description: 'dodawanie trzech liczb', //string to describe tool
-                    result:{}
-                }
+        fetch to user all of arguments
         '''
-        values= {} # dict with currently
-        # args= list(list(filter(lambda x: x['name']==name,self.fnStore))[0]['args'])
-        # selected['id']=tool.['id']
-        #  selected['group']=tool.['group']
-        #   selected['name']=tool.['name']
-        return list(list(filter(lambda x: x['name']==name,self.fnStore))[0]['args'])
+        return list(filter(lambda x: x['name']==name,self.fnStore))[0]['values']
     def listFn(self):
         '''
         returns list with names of all functions

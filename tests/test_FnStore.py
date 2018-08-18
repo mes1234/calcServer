@@ -3,18 +3,18 @@ import pytest
 '''
 dummy function for test
 '''
-def arytmetyka_add(x=1,y=1):
+def arytmetyka_add(x_lbm=1,y_kg='yello'):
     '''
     function to calculate sum of two elements
     '''
-    res = x+y
+    res = x_+y_
     return res
 
-def arytmetyka_diff(x=1,y=1):
+def arytmetyka_diff(x_m3=1,y_m2=1):
     '''
     function to calculate difference of two elements
     '''
-    res = x-y
+    res = x_m3-y_m2
     return res
 '''
 create Store object
@@ -28,6 +28,7 @@ def Store():
  ################################
 ######       TESTS       #########
  ################################ 
+
 def test_StoreFnctListing(Store):
     '''
     test correctness of fetching list of fncts
@@ -46,9 +47,19 @@ def test_StoreFnctListing(Store):
     ]
 
 
-def test_StoreFnctArgListing(Store):
+def test_StoreFnctGetArgs(Store):
     '''
     test correctness of fetching list of args for fncts
     '''
-    #TODO setup test to run flawlessly with VUE
-    assert Store.getArgs('add') == ['x','y']
+    assert Store.getArgs('add') == {
+        'x':{
+            'value':1,
+            'valueType':'number',
+            'valueUnit':'lbm'
+        },
+        'y':{
+            'value':'yello',
+            'valueType':'text',
+            'valueUnit':'kg'
+        }
+    }
