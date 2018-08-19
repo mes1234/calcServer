@@ -16,7 +16,7 @@ class FnStore():
         ''' 
         fn = {}
         args= inspect.getargspec(fnct)
-        fn['description']= fnct.__code__.co_consts
+        fn['description']= fnct.__doc__.split("*")[1] # truncate to portion of docstirng between * *
         fn['group']=fnct.__code__.co_name.split("_")[0]
         fn['name']=fnct.__code__.co_name.split("_")[1]
         fn['id']=len(self.fnStore)
@@ -33,16 +33,21 @@ class FnStore():
                 list(map(lambda x:str(type(x)).split("'")[1],args.defaults)))} # extract units
         fn['exec']=fnct
         self.fnStore.append(fn)
-    def calculate(self):
+    def calculate(self,id,*args):
         '''
-        placeholder for calculation of function
+        calculate function
         '''
         pass
-    def getArgs(self,name):
+    def getArgs(self,id):
         '''
         fetch to user all of arguments
         '''
-        return list(filter(lambda x: x['name']==name,self.fnStore))[0]['values']
+        return list(filter(lambda x: x['id']==id,self.fnStore))[0]['values']
+    def getDesc(self,id):
+        '''
+        returns description of given functions by id
+        '''
+        return list(filter(lambda x: x['id']==id,self.fnStore))[0]['description']
     def listFn(self):
         '''
         returns list with names of all functions
