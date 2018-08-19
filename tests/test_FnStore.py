@@ -69,12 +69,10 @@ def test_StoreFnctCalculate(Store):
     '''
     Correctness of calculating function
     '''
-    #TODO not working
-    id= 0
+    id= 1
     args = Store.getArgs(id)
     dummyArgs=[1,2]
-    t ={argsParams_.valueUnit:1 for argsParams_ in args}
     toCalculate ={
-        arg_+argsParams_.valueUnit: value_ for (arg_,argsParms_,value_) in zip(args.keys(),args,dummyArgs)
+        arg_: value_ for (arg_,value_) in zip(args.keys(),dummyArgs)
     }
-    pass
+    assert Store.calculate(id,toCalculate)==arytmetyka_diff(1,2)

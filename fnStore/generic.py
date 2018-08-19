@@ -3,7 +3,7 @@ class FnStore():
     '''
 
     This is generic definition of class which will be used to define function
-
+    #TODO add error handler to calculate
     '''
     fnStore= [] # list with functions
     formTypes={
@@ -33,10 +33,12 @@ class FnStore():
                 list(map(lambda x:str(type(x)).split("'")[1],args.defaults)))} # extract units
         fn['exec']=fnct
         self.fnStore.append(fn)
-    def calculate(self,id,*args):
+    def calculate(self,id,args):
         '''
         calculate function
         '''
+        fnct= list(filter(lambda x: x['id']==id,self.fnStore))[0]['exec']
+        return fnct(*args.values())
         pass
     def getArgs(self,id):
         '''
