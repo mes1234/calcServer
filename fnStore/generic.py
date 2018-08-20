@@ -7,6 +7,7 @@ class FnStore():
     '''
     fnStore= [] # list with functions
     formTypes={
+        'float':'number',
         'int':'number',
         'str':'text'
     }
