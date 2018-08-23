@@ -4,13 +4,13 @@ from flask import Flask, request, g, jsonify
 from fnStore.generic import FnStore
 from fnStore.arytmetyka import *
 from fnStore.geometria import *
-# from flask_cors import CORS
+from flask_cors import CORS
 
 
 
 
 app= Flask(__name__)
-# CORS(app)
+CORS(app)
 
 store=FnStore()
 # TODO add method to add all of functions in module
@@ -40,9 +40,16 @@ def getDesc(tool_id):
     return description for selected tool
     '''
     return jsonify(store.getDesc(tool_id))
-    # TODO add calculate route
+@app.route("/calculate",methods=['POST'])
+def calculate():
+    '''
+    return function for given args
+    '''
+    dane= request.json['data']
+    toolId= request.json['tool']
+    return jsonify(store.calculate(toolId,dane))
 if __name__ == '__main__':
-    app.debug = True
+    app.debug = False
     # app.config['DATABASE_NAME'] = 'library.db'
     host = os.environ.get('IP', '0.0.0.0')
     port = int(os.environ.get('PORT', 8081))
