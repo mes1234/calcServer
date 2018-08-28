@@ -1,9 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import moment from 'moment';
 import axios from 'axios';
 import _ from  'lodash'
-const API= '127.0.0.1:8081'
+const API= 'witkepcz.pythonanywhere.com'
 // '127.0.0.1:8081'
 // 'witkepcz.pythonanywhere.com'
 
