@@ -4,7 +4,8 @@ from flask import Flask, request, g, jsonify, render_template
 from fnStore.generic import FnStore
 from fnStore.arytmetyka import *
 from fnStore.geometria import *
-# from flask_cors import CORS
+from fnStore.przeplyw import *
+from flask_cors import CORS
 
 class VueFlask(Flask):
   jinja_options = Flask.jinja_options.copy()
@@ -20,16 +21,17 @@ class VueFlask(Flask):
 
 
 app= VueFlask(__name__)
-# CORS(app)
+CORS(app)
 
 store=FnStore()
 # TODO add method to add all of functions in module
-store.register(arytmetyka_dodaj)
-store.register(arytmetyka_odejmij)
-store.register(arytmetyka_podziel)
-store.register(arytmetyka_pomnoz)
-store.register(geometria_pitagoras)
-store.register(geometria_poleKola)
+store.register(arytmetyka_dodaj)#1
+store.register(arytmetyka_odejmij)#2
+store.register(arytmetyka_podziel)#3
+store.register(arytmetyka_pomnoz)#4
+store.register(geometria_pitagoras)#5
+store.register(geometria_poleKola)#6
+store.register(przeplyw_kryza)#7
 
 @app.route("/",methods=['GET'])
 def serveApp():

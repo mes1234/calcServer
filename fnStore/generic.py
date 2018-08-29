@@ -9,7 +9,8 @@ class FnStore():
     formTypes={
         'float':'number',
         'int':'number',
-        'str':'text'
+        'str':'text',
+        'list':'list'
     }
     def register(self,fnct):
         '''
@@ -26,6 +27,7 @@ class FnStore():
             arg_: 
             {'valueUnit':unit_,
             'value':default_,
+            'valueDefault':default_,
             'valueType':self.formTypes[typ_]
             } for (arg_, unit_,default_,typ_) in zip(
                 list(map(lambda x: x.split("_")[0],args.args)),#extract argument name before _
