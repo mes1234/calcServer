@@ -6,6 +6,8 @@ from fnStore.arytmetyka import *
 from fnStore.geometria import *
 from fnStore.przeplyw import *
 from flask_cors import CORS
+from flask_jwt_extended import *
+
 
 class VueFlask(Flask):
   jinja_options = Flask.jinja_options.copy()
@@ -32,6 +34,34 @@ store.register(arytmetyka_pomnoz)#4
 store.register(geometria_pitagoras)#5
 store.register(geometria_poleKola)#6
 store.register(przeplyw_kryza)#7
+
+
+# Setup the Flask-JWT-Extended extension
+app.config['JWT_SECRET_KEY'] = 'super-secret'  # Change this!
+jwt = JWTManager(app)
+
+@app.route('/login', methods=['POST'])
+def login():
+    if not request.is_json:
+        return jsonify({"msg": "Missing JSON in request"}), 400
+
+    username = request.json.get('username', None)
+    password = request.json.get('password', None)
+    if not username:
+        return jsonify({"msg": "Missing username parameter"}), 400
+    if not password:
+        return jsonify({"msg": "Missing password parameter"}), 400
+
+    if username != 'test' or password != 'test':
+        return jsonify({"msg": "Bad username or password"}), 401
+
+    # Identity can be any data that is json serializable
+    access_token = create_access_token(identity=username)
+    return jsonify(access_token=access_token), 200
+
+
+
+
 
 @app.route("/",methods=['GET'])
 def serveApp():
