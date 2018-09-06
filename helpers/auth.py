@@ -6,7 +6,7 @@ from flask import jsonify
 USERS= {
     'witek':'1234',
 }
-
+LOGGED_USERS= set()
 
 
 def checkUser(fn):

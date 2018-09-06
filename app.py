@@ -47,14 +47,11 @@ def login():
     if validateUser(username=username,password=password):
     # Identity can be any data that is json serializable
         access_token = create_access_token(identity=username)
+        LOGGED_USERS.add(username)
+        print(LOGGED_USERS)
         return jsonify(access_token=access_token), 200
     else:
         return jsonify('Unauthorized'),401
-
-
-
-
-
 @app.route("/",methods=['GET'])
 def serveApp():
     '''
