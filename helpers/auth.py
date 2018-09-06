@@ -1,16 +1,26 @@
 import json
 import jwt
+from functools import wraps
+from flask_jwt_extended import *
+from flask import jsonify
 USERS= {
     'witek':'1234',
 }
-def checkUser(username:str):
-    '''
-    check if user exist in USERS pool
-    '''
-    if username in USERS.keys():
-        return True
-    else:
-        return False
+
+
+
+def checkUser(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        '''
+        check if user exist in USERS pool
+        '''
+        current_user = get_jwt_identity()
+        if current_user in USERS.keys():
+            return fn(*args, **kwargs)
+        else:
+            return jsonify("Unauthorized"), 401
+    return wrapper
 def validateUser(username:str,password:str):
     '''
     function to verify if valid user is signing in

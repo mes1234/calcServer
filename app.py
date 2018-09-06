@@ -63,28 +63,31 @@ def serveApp():
     return render_template('index.html')
 @app.route("/getList",methods=['GET'])
 @jwt_required
+@checkUser
 def getList():
     '''
     return list with all of available tools
     '''
-    current_user = get_jwt_identity()
-    if checkUser(current_user):
-        return jsonify(store.listFn()),200
-    else:
-        return jsonify("Unauthorized"), 401
+    return jsonify(store.listFn()),200
 @app.route("/getParams/<int:tool_id>",methods=['GET'])
+@jwt_required
+@checkUser
 def getParams(tool_id):
     '''
     return list with all parameters for selected tool
     '''
     return jsonify(store.getArgs(tool_id))
 @app.route("/getDesc/<int:tool_id>",methods=['GET'])
+@jwt_required
+@checkUser
 def getDesc(tool_id):
     '''
     return description for selected tool
     '''
     return jsonify(store.getDesc(tool_id))
 @app.route("/calculate",methods=['POST'])
+@jwt_required
+@checkUser
 def calculate():
     '''
     return function for given args
