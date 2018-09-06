@@ -1,4 +1,11 @@
 from fnStore.generic import FnStore
+import requests
+import pytest
+import jwt
+import json
+import os
+from helpers.auth import *
+
 import pytest
 '''
 dummy function for test
@@ -51,12 +58,14 @@ def test_StoreFnctGetArgs(Store):
     assert Store.getArgs(0) == {
         'x':{
             'value':1,
+            'valueDefault':1,
             'valueType':'number',
             'valueUnit':'lbm'
         },
         'y':{
             'value':'yello',
             'valueType':'text',
+            'valueDefault':'yello',
             'valueUnit':'kg'
         }
     }
