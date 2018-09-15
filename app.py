@@ -39,6 +39,18 @@ store.register(przeplyw_kryza)          #7
 # Setup the Flask-JWT-Extended extension
 app.config['JWT_SECRET_KEY'] = os.environ['JWT_SECRET_KEY'] 
 jwt = JWTManager(app)
+@app.route('/logout', methods=['POST'])
+@jwt_required
+@checkUser
+def logout():
+    username= request.json.get('username', None)
+    jwtUsername= get_jwt_identity()
+    if username == jwtUsername:
+        LOGGED_USERS.remove(username)
+        print(LOGGED_USERS)
+        return jsonify(username=username),200
+    else:
+        return jsonify('Unauthorized'),401
 
 @app.route('/login', methods=['POST'])
 def login():

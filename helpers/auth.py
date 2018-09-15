@@ -16,7 +16,7 @@ def checkUser(fn):
         check if user exist in USERS pool
         '''
         current_user = get_jwt_identity()
-        if current_user in USERS.keys():
+        if current_user in LOGGED_USERS:
             return fn(*args, **kwargs)
         else:
             return jsonify("Unauthorized"), 401

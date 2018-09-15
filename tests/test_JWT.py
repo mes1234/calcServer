@@ -11,7 +11,7 @@ def auth_preproc():
     '''
     setup of test requiring token prior
     '''
-    os.environ['JWT_SECRET_KEY']="Artek"
+    print(os.environ['JWT_SECRET_KEY'])
     res= requests.post(url='http://0.0.0.0:8081/login',json={
         'username':'witek',
         'password':'1234',
@@ -53,3 +53,26 @@ def test_LoginRoute(auth_preproc):
         'password':'1234',
     })
     assert decodeJWT(res,os.environ['JWT_SECRET_KEY'])['identity']== 'witek'
+def test_LogoutRoute(auth_preproc):
+    '''
+    verify if logout works
+    '''
+    token= auth_preproc['token']
+    header={
+        'Authorization': f'Bearer {token}'
+    }
+    res= requests.post(url='http://0.0.0.0:8081/logout',headers=header,json={'username':'witek'})
+    assert json.loads(res.text)['username']=='witek'
+    
+def test_AfterLogoutRoute(auth_preproc):
+    '''
+    verify if logout works and protectes after logout
+    '''
+    token= auth_preproc['token']
+    header={
+        'Authorization': f'Bearer {token}'
+    }
+    res= requests.post(url='http://0.0.0.0:8081/logout',headers=header,json={'username':'witek'})
+    res= requests.get(url='http://0.0.0.0:8081/getList',headers=header)
+    print(res)
+    assert 'group' not in res.text
