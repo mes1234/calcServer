@@ -5,7 +5,7 @@ from fnStore.generic import FnStore
 from fnStore.arytmetyka import *
 from fnStore.geometria import *
 from fnStore.przeplyw import *
-from flask_cors import CORS
+# from flask_cors import CORS
 from flask_jwt_extended import *
 from helpers.auth import *
 
@@ -23,7 +23,7 @@ class VueFlask(Flask):
 
 
 app= VueFlask(__name__)
-CORS(app)
+# CORS(app)
 
 store=FnStore()
 # TODO add method to add all of functions in module
